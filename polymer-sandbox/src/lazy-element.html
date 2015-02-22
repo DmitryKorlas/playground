@@ -1,0 +1,33 @@
+<!-- Import Polymer -->
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<!-- Define your custom element -->
+<polymer-element name="lazy-element" attributes="person width height">
+
+    <template>
+        <style>
+            img {
+                display: inline-block;
+            }
+        </style>
+        <p>Hello <strong>{{person}}</strong> :)</p>
+        <img src="{{imgUrl}}" width="{{width}}" height="{{height}}"/>
+    </template>
+
+    <script>
+        Polymer('lazy-element', {
+            person: 'Anonymous',
+            width: 300,
+            height: 300,
+            imgUrl: null,
+            ready: function() {
+                this.imgUrl = this.getRandomImageURL(this.width, this.height)
+            },
+            getRandomImageURL: function(w, h) {
+                return 'http://lorempixel.com/'+ w+ '/'+ h;
+            }
+
+        });
+    </script>
+
+</polymer-element>

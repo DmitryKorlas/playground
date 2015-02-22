@@ -1,3 +1,3 @@
 playground
 ----------
-A space to experiments
+A space for experiments

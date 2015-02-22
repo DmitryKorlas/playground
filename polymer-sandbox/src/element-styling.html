@@ -1,0 +1,43 @@
+<!-- Import Polymer -->
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<!-- Define your custom element -->
+<polymer-element name="element-styling" attributes="person">
+
+    <template>
+        <style>
+            polyfill-next-selector { content: 'strong' }
+            ::content strong {
+                background-color: green;
+            }
+
+
+            /**
+            change <element-styling/> style
+            */
+            :host {
+                border: 1px solid greenyellow;
+                display: block;
+            }
+
+            content[select="pre"]::content * {
+                padding: 12px;
+                border: 2px solid seagreen;
+            }
+            content[select="pre"]::content pre {
+                border-style: dashed;
+            }
+
+        </style>
+        <p>Hello <strong>{{person}}</strong> <span>:)</span></p>
+        <content select="pre"></content>
+        <content></content>
+    </template>
+
+    <script>
+        Polymer('element-styling', {
+            person: 'Anonymous'
+        });
+    </script>
+
+</polymer-element>

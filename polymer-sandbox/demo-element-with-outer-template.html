@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>&lt;hello-world&gt;</title>
+
+    <!-- Importing Web Component's Polyfill -->
+    <script src="bower_components/webcomponentsjs/webcomponents.min.js"></script>
+
+    <!-- Importing Custom Elements -->
+    <link rel="import" href="src/element-with-outer-template.html">
+    <style>
+        element-with-outer-template {
+            margin-right: 10px;
+
+        }
+        h3 {
+            font-style: italic;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Using Custom Elements -->
+
+    <element-with-outer-template>
+        <H3>External layout</H3>
+        <template>
+            rendered {{myData.genre}}
+            <button id="run">Run me</button>
+        </template>
+    </element-with-outer-template>
+
+    <element-with-outer-template>
+        <h3>External layout</h3>
+
+        <template>
+            <style>
+                /*Important moment, is that is not possible to move this style outside of template */
+                .my-rule {
+                    color: green;
+                }
+                .fib-number {
+                    color: orangered;
+                }
+            </style>
+
+            <div>
+                <button id="run">Run me</button>
+                <div class="my-rule" style="height:200px;">
+                    rendered {{myData.genre}}
+                    <template repeat="{{myData.numbers}}">Fibonacci number Number {{}} looks
+                        <span class="fib-number" style="font-size:{{}}px">{{}}</span><br/>
+                    </template>
+                </div>
+            </div>
+        </template>
+    </element-with-outer-template>
+
+
+
+</body>
+</html>

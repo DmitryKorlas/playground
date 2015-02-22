@@ -8,7 +8,6 @@
     <script src="bower_components/webcomponentsjs/webcomponents.min.js"></script>
 
     <!-- Importing Custom Elements -->
-    <!--<link rel="import" href="src/lazy-element.html">-->
     <link rel="import" href="bower_components/polymer/polymer.html">
     <style>
         html, body {
@@ -55,12 +54,12 @@
 
     <!-- Using Custom Elements -->
 
-        <div layout horizontal center class="toolbar">
-            <div class="sign">1</div><button id="load">Load &lt;lazy-element/&gt;</button>
-            <div class="sign">2</div><button id="append">Append</button>
-            <div class="status">.</div>
-        </div>
-        <section flex class="container"></section>
+    <div layout horizontal center class="toolbar">
+        <div class="sign">1</div><button id="load">Load &lt;lazy-element/&gt;</button>
+        <div class="sign">2</div><button id="append">Append</button>
+        <div class="status">.</div>
+    </div>
+    <section flex class="container"></section>
 
     <script>
         (function() {
@@ -99,7 +98,9 @@
             });
 
             function drawStatus(statusMessage) {
-                elStatus.innerText = statusMessage;
+                elStatus.innerHTML = statusMessage
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;');
             }
         })();
     </script>

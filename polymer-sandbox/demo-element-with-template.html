@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>&lt;element-with-template&gt;</title>
+
+    <!-- Importing Web Component's Polyfill -->
+    <script src="bower_components/webcomponentsjs/webcomponents.min.js"></script>
+
+    <!-- Importing Custom Elements -->
+    <link rel="import" href="src/element-with-template.html">
+    <style>
+        span {
+            color: red;
+            display: block;
+
+        }
+        hr {
+            height: 2px;
+            background: gray;
+        }
+    </style>
+</head>
+<body>
+
+    <template id="extended-template">
+        <div style="color: {{colorize}}"><strong>#extended-template rendered;</strong></div>
+        <content></content>
+        {{colorize}}
+    </template>
+
+    <!-- Extends Elements -->
+    <polymer-element name="extended-element" extends="element-with-template">
+        <template ref="extended-template">
+            this text will not be shown, because attr "ref" is defined.
+            So, template with id extended-template will be used.
+        </template>
+        <script>
+            Polymer();
+        </script>
+    </polymer-element>
+
+    <!-- Extends Elements -->
+    <polymer-element name="wrap-the-parent" extends="extended-element">
+        <template>
+            <div>
+                This element use parent template
+            </div>
+
+            <shadow></shadow>
+        </template>
+        <script>
+            Polymer();
+        </script>
+    </polymer-element>
+
+    <div layout horizontal>
+        <div style="width:100px"></div>
+        <div flex>
+            <!-- Using Custom Elements -->
+            <element-with-template colorize="blue">
+                <h5 class="is-alpha">Alpha</h5>
+                <h3><span>some</span> element</h3>
+                <div><h6 class="is-nested-element">I'm nested</h6></div>
+                <h4 class="is-gamma">Gamma</h4>
+                <p class="is-beta">Beta</p>
+
+                <div>This placeholder will not be bind to element value: {{colorize}}</div>
+            </element-with-template>
+
+            <extended-element colorize="red">
+                <h1>This is extended element and it fully replaces parent template</h1>
+
+            </extended-element>
+
+            <wrap-the-parent colorize="violet"></wrap-the-parent>
+        </div>
+    </div>
+
+</body>
+</html>

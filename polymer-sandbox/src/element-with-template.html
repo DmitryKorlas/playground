@@ -1,0 +1,82 @@
+<!-- Import Polymer -->
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<!-- Define your custom element -->
+<polymer-element name="element-with-template" attributes="colorize">
+
+
+    <template>
+        <style>
+            :host {
+                display: block;
+                padding: 0 0 12px 24px;
+                border-left: 16px solid {{colorize}};
+            }
+            .my-box {
+                padding: 25px;
+                border: 1px solid {{colorize}};
+            }
+
+        </style>
+
+        <p>This demo element demonstrates templates usage.
+            You specified value <strong style="color:{{colorize}};">{{colorize}}</strong>
+            as colorize attr.<br/>
+            Element contains value {{myModel.name}}
+        </p>
+
+        <content select="h3"><br>This text will not be rendered, if outer element markup
+            contains H3 tag on the first level.
+            Otherwise H3 tag will be rendered instead this text
+        </content>
+        <content select=".is-alpha"><br>Selecting nodes by class name is also works</content>
+        <content select=".is-beta"><br>If you see this text, then '.is-beta' is not found</content>
+        <content select=".is-gamma"><br>Element defines a final order of selected nodes</content>
+
+        <content select=".is-nested-element"><br>Nested nodes is not selected.
+            See <a href="{{link}}" target="_blank">spec</a></content>
+
+
+        <content>This text will not be rendered, however inner tags (excluding already selected)
+            inside outer element will be placed here</content>
+
+
+
+        <template id="innerTplAlpha" bind="{{}}" ref="innerCustomTplAlpha">
+            <p class="my-box">
+            #innerTplAlpha renders {{colorize}} :: {{colorize}}
+            </p>
+        </template>
+        <template id="innerCustomTplAlpha">
+            <p class="my-box">
+            <strong>{{colorize}}</strong> rendered in #innerCustomTplAlpha
+            </p>
+        </template>
+
+        <template id="innerTplBeta" bind>
+            <p class="my-box">
+            #innerTplBeta renders {{colorize}}
+            </p>
+        </template>
+    </template>
+
+    <script>
+        Polymer('element-with-template', {
+            colorize: 'limegreen',
+
+            link: 'http://w3c.github.io/webcomponents/spec/shadow/#satisfying-matching-criteria',
+
+            // we should not initialize complex data (Object, Array) here
+            // to avoid shared data across multiple instances
+            myModel: null,
+
+            ready: function() {
+                this.myModel = {
+                    name: 'John Smith',
+                    age: '36'
+                };
+            }
+        });
+    </script>
+
+</polymer-element>

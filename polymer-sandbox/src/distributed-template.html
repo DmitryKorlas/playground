@@ -1,0 +1,87 @@
+<!-- Import Polymer -->
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<!-- Define your custom element -->
+<polymer-element name="distributed-template" attributes="person mydata">
+
+	<template>
+		<p>Hello <strong>{{person}}</strong></p>
+		<div><content></content></div>
+	</template>
+
+	<script>
+		Polymer('distributed-template', {
+
+			person: 'Guest',
+			observe: {
+				'isAttached mydata template': 'initialize'
+			},
+			publish: {
+				mydata: null
+			},
+			ready: function(){
+				console.log('ready');
+			},
+			attached: function() {
+				console.log('attached')
+				this.isAttached = true;
+				this.template = this.querySelector('template');
+				if (!this.template.bindingDelegate) {
+					console.log('delegate');
+					this.template.bindingDelegate = this.element.syntax;
+				}
+			},
+
+			initialize: function() {
+				console.log('initialize')
+				this.initializeData();
+			},
+
+			initializeData: function() {
+				console.log('initializeData');
+				var model = this.templateInstance ? Object.create(this.templateInstance.model) : {};
+				this._data = model;
+
+				//this.template.model = this._data;
+				console.log('mydata:', JSON.stringify(this.mydata));
+				if (this.mydata != null) {
+
+					this.template.model = this.mydata;
+					// for using model as object, use 'bind' attribute
+					//this.template.setAttribute('bind', '');
+
+					// for using model as array, use 'repeat' attribute
+					this.template.setAttribute('repeat', '');
+				}
+
+				console.group('initializeData');
+				console.log('this.template.nextElementSibling == null', this.template.nextElementSibling == null)
+				console.dir(this);
+				console.groupEnd('initializeData');
+
+				// setup onetime callback for listening DOM tree changes
+				this.onMutation(this, this._onDomMutation);
+				this.refresh();
+
+			},
+			_onDomMutation: function() {
+				console.log('YES! initializeItems');
+
+				console.group('initializeItems');
+				console.log('this.template.nextElementSibling == null', this.template.nextElementSibling == null)
+				console.groupEnd('initializeItems');
+			},
+
+			refresh: function() {
+				console.log('refresh');
+				this._updateItemData();
+			},
+			_updateItemData: function() {
+				var data = this._data;
+				data.model = {description:Math.floor(Math.random()*45)};
+			}
+
+		});
+	</script>
+
+</polymer-element>

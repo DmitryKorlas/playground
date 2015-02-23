@@ -1,40 +1,40 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>&lt;element-styling&gt;</title>
+	<meta charset="UTF-8">
+	<title>&lt;element-styling&gt;</title>
 
-    <!-- Importing Web Component's Polyfill -->
-    <script src="bower_components/webcomponentsjs/webcomponents.min.js"></script>
+	<!-- Importing Web Component's Polyfill -->
+	<script src="bower_components/webcomponentsjs/webcomponents.min.js"></script>
 
-    <!-- Importing Custom Element -->
-    <link rel="import" href="src/element-styling.html">
-    <style>
+	<!-- Importing Custom Element -->
+	<link rel="import" href="src/element-styling.html">
+	<style>
 
-        element-styling::shadow strong {
-            color: blue;
-        }
+		element-styling::shadow strong {
+			color: blue;
+		}
 
-        element-styling /deep/ span {
-            color: red;
-            background-color: black;
-        }
+		element-styling /deep/ span {
+			color: red;
+			background-color: black;
+		}
 
-        element-styling:hover{
-            background-color: lightgray;
-            transition: background-color 600ms ease-in-out;
-        }
+		element-styling:hover{
+			background-color: lightgray;
+			transition: background-color 600ms ease-in-out;
+		}
 
-    </style>
+	</style>
 </head>
 <body>
 
-    <!-- Using Custom Element -->
-    <element-styling person="Mister">
-        <p>Some content</p>
-        <pre>preformatted content <div>and some inner <span>text</span> here</div></pre>
-        <p>more content</p>
-    </element-styling>
+	<!-- Using Custom Element -->
+	<element-styling person="Mister">
+		<p>Some content</p>
+		<pre>preformatted content <div>and some inner <span>text</span> here</div></pre>
+		<p>more content</p>
+	</element-styling>
 
 </body>
 </html>

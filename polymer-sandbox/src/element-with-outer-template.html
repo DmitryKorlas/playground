@@ -4,85 +4,85 @@
 <!-- Define your custom element -->
 <polymer-element name="element-with-outer-template">
 
-    <template>
-        <style>
-            :host {
-                display: inline-block;
-            }
-            #run {
-                color: blue;
-            }
-            .my-rule {
-                color: lime;
-            }
-        </style>
-        <p>This element use external template defined outside. <strong>{{myModel.genre}}</strong></p>
-        <content></content>
+	<template>
+		<style>
+			:host {
+				display: inline-block;
+			}
+			#run {
+				color: blue;
+			}
+			.my-rule {
+				color: lime;
+			}
+		</style>
+		<p>This element use external template defined outside. <strong>{{myModel.genre}}</strong></p>
+		<content></content>
 
-    </template>
+	</template>
 
-    <script>
-        Polymer('element-with-outer-template', {
-            myModel: null,
+	<script>
+		Polymer('element-with-outer-template', {
+			myModel: null,
 
-            ready: function() {
-                console.log('ready');
-                this.myModel = {
-                    genre: 'Any',
-                    numbers: []
-                }
-            },
+			ready: function() {
+				console.log('ready');
+				this.myModel = {
+					genre: 'Any',
+					numbers: []
+				}
+			},
 
-            attached: function() {
-                this.isAttached = true;
+			attached: function() {
+				this.isAttached = true;
 
-                var template = this.querySelector('template');
-                if (!template.bindingDelegate) {
-                    console.log('bindingDelegate');
-                    template.bindingDelegate = this.element.syntax;
-                }
-                this.template = template;
-                this.shadowRoot.appendChild(this.template);
+				var template = this.querySelector('template');
+				if (!template.bindingDelegate) {
+					console.log('bindingDelegate');
+					template.bindingDelegate = this.element.syntax;
+				}
+				this.template = template;
+				this.shadowRoot.appendChild(this.template);
 
-                this.template.setAttribute('bind', '');
-                this.template.model = {
-                    myData: this.myModel
-                };
+				this.template.setAttribute('bind', '');
+				this.template.model = {
+					myData: this.myModel
+				};
 
-                // this.shadowRoot.appendChild(template.createInstance({myData: this.myModel}));
-            },
+				// this.shadowRoot.appendChild(template.createInstance({myData: this.myModel}));
+			},
 
-            fibNext: function() {
-                var numbers = this.myModel.numbers;
-                var last, prelast;
-                switch (numbers.length) {
-                    case 0:
-                        last = 0;
-                        prelast = 0;
-                    break;
-                    case 1:
-                        last = numbers[numbers.length-1];
-                        prelast = 1;
-                    break;
-                    default:
-                        last = numbers[numbers.length-1];
-                        prelast = numbers[numbers.length-2];
-                    break;
-                }
+			fibNext: function() {
+				var numbers = this.myModel.numbers;
+				var last, prelast;
+				switch (numbers.length) {
+					case 0:
+						last = 0;
+						prelast = 0;
+					break;
+					case 1:
+						last = numbers[numbers.length-1];
+						prelast = 1;
+					break;
+					default:
+						last = numbers[numbers.length-1];
+						prelast = numbers[numbers.length-2];
+					break;
+				}
 
-                this.myModel.numbers.push(last + prelast);
-            },
+				this.myModel.numbers.push(last + prelast);
+			},
 
-            domReady: function() {
-                console.log('domReady');
+			domReady: function() {
+				console.log('domReady');
 
-                this.shadowRoot.querySelector('#run')
-                .addEventListener('click', function(){
-                    this.myModel.genre += '!';
-                    this.fibNext();
-                }.bind(this));
-            }
-        });
-    </script>
+				this.shadowRoot.querySelector('#run')
+				.addEventListener('click', function(){
+					this.myModel.genre += '!';
+					this.fibNext();
+				}.bind(this));
+			}
+		});
+	</script>
 
 </polymer-element>

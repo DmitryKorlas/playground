@@ -1,109 +1,107 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>&lt;lazy-element&gt;</title>
+	<meta charset="UTF-8">
+	<title>&lt;lazy-element&gt;</title>
 
-    <!-- Importing Web Component's Polyfill -->
-    <script src="bower_components/webcomponentsjs/webcomponents.min.js"></script>
+	<!-- Importing Web Component's Polyfill -->
+	<script src="bower_components/webcomponentsjs/webcomponents.min.js"></script>
 
-    <!-- Importing Custom Elements -->
-    <link rel="import" href="bower_components/polymer/polymer.html">
-    <style>
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            background-color: rgba(229, 229, 229, 1);
-        }
-        .demo {
-            height: 100%;
-        }
-        .sign {
-            color: #003bb3;
-            font-size: 16px;
-            display: inline-block;
-            padding: 0 10px 0 15px;
-        }
-        .status {
-            display: inline-block;
-            padding: 0 10px 0 15px;
-        }
-        .toolbar {
-            height: 50px;
-            background-color: #fff;
-            box-shadow: 0 2px 4px 0 rgba(0,0,0,.15);
-        }
-        .container {
-            overflow-y: auto;
+	<!-- Importing Custom Elements -->
+	<link rel="import" href="bower_components/polymer/polymer.html">
+	<style>
+		html, body {
+			height: 100%;
+			margin: 0;
+			padding: 0;
+			background-color: rgba(229, 229, 229, 1);
+		}
 
-        }
-        lazy-element {
-            display: inline-block;
-            margin: 15px;
-            padding: 10px;
-            min-width: 30px;
-            min-height: 30px;
-            background-color: rgba(299,299,299,.8);
-            box-shadow: 0 1px 2px 0 rgba(0,0,0,.15);
-        }
-    </style>
+		.sign {
+			color: #003bb3;
+			font-size: 16px;
+			display: inline-block;
+			padding: 0 10px 0 15px;
+		}
+		.status {
+			display: inline-block;
+			padding: 0 10px 0 15px;
+		}
+		.toolbar {
+			height: 50px;
+			background-color: #fff;
+			box-shadow: 0 2px 4px 0 rgba(0,0,0,.15);
+		}
+		.container {
+			overflow-y: auto;
+
+		}
+		lazy-element {
+			display: inline-block;
+			margin: 15px;
+			padding: 10px;
+			min-width: 30px;
+			min-height: 30px;
+			background-color: rgba(299,299,299,.8);
+			box-shadow: 0 1px 2px 0 rgba(0,0,0,.15);
+		}
+	</style>
 </head>
-<body layout vertical class="demo">
+<body layout vertical>
 
 
-    <!-- Using Custom Elements -->
+	<!-- Using Custom Elements -->
 
-    <div layout horizontal center class="toolbar">
-        <div class="sign">1</div><button id="load">Load &lt;lazy-element/&gt;</button>
-        <div class="sign">2</div><button id="append">Append</button>
-        <div class="status">.</div>
-    </div>
-    <section flex class="container"></section>
+	<div layout horizontal center class="toolbar">
+		<div class="sign">1</div><button id="load">Load &lt;lazy-element/&gt;</button>
+		<div class="sign">2</div><button id="append">Append</button>
+		<div class="status">.</div>
+	</div>
+	<section flex class="container"></section>
 
-    <script>
-        (function() {
-            var buttonLoad = document.querySelector('#load');
-            var buttonAppend = document.querySelector('#append');
-            var elContainer = document.querySelector('.container');
-            var elStatus = document.querySelector('.status');
-            var strings = ["Hello", "I'm", "lazy"];
+	<script>
+		(function() {
+			var buttonLoad = document.querySelector('#load');
+			var buttonAppend = document.querySelector('#append');
+			var elContainer = document.querySelector('.container');
+			var elStatus = document.querySelector('.status');
+			var strings = ["Hello", "I'm", "lazy"];
 
-            var i = 0;
+			var i = 0;
 
-            buttonLoad.addEventListener('click', function () {
-                Polymer.import(['src/lazy-element.html'], function () {
-                    drawStatus('loading done: src/lazy-element.html');
-                });
-            });
+			buttonLoad.addEventListener('click', function () {
+				Polymer.import(['src/lazy-element.html'], function () {
+					drawStatus('loading done: src/lazy-element.html');
+				});
+			});
 
-            buttonAppend.addEventListener('click', function () {
-                var width = 100 * (i++%strings.length +1);
-                var height = width * 2;
-                var randA = Math.floor(Math.random()*strings.length);
-                var randB = Math.floor(Math.random()*strings.length);
-                var text = strings.filter(function(el, index) {
-                    return index == randA || index == randB;
-                }).join(' ');
+			buttonAppend.addEventListener('click', function () {
+				var width = 100 * (i++%strings.length +1);
+				var height = width * 2;
+				var randA = Math.floor(Math.random()*strings.length);
+				var randB = Math.floor(Math.random()*strings.length);
+				var text = strings.filter(function(el, index) {
+					return index == randA || index == randB;
+				}).join(' ');
 
-                var template = '<lazy-element person="%person%"'
-                    + 'width="%width%" height="%height%"></lazy-element>';
+				var template = '<lazy-element person="%person%"'
+					+ 'width="%width%" height="%height%"></lazy-element>';
 
-                elContainer.innerHTML += template
-                    .replace('%person%', text)
-                    .replace('%width%', width)
-                    .replace('%height%', height);
+				elContainer.innerHTML += template
+					.replace('%person%', text)
+					.replace('%width%', width)
+					.replace('%height%', height);
 
-                drawStatus('Append <lazy-element/>');
-            });
+				drawStatus('Append <lazy-element/>');
+			});
 
-            function drawStatus(statusMessage) {
-                elStatus.innerHTML = statusMessage
-                    .replace(/</g, '&lt;')
-                    .replace(/>/g, '&gt;');
-            }
-        })();
-    </script>
+			function drawStatus(statusMessage) {
+				elStatus.innerHTML = statusMessage
+					.replace(/</g, '&lt;')
+					.replace(/>/g, '&gt;');
+			}
+		})();
+	</script>
 
 </body>
 </html>

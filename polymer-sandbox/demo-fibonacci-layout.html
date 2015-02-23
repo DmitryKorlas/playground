@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Fibonacci layout</title>
+
+	<!-- Importing Web Component's Polyfill -->
+	<script src="bower_components/webcomponentsjs/webcomponents.min.js"></script>
+
+	<link rel="import" href="bower_components/polymer/polymer.html">
+	<style>
+		html, body {
+			height: 100%;
+			margin: 0;
+			padding: 0;
+		}
+		.num {
+			display: inline-block;
+			border: 1px solid #000000;
+			box-sizing: border-box;
+			overflow: hidden;
+		}
+		.layout-box {
+			border: none;
+		}
+	</style>
+</head>
+<body layout vertical center>
+
+	<div style="height: 40px"><button id="button">Click me few times</button></div>
+	<div flex center>
+
+		<div class="num" layout horizontal center>
+			<div class="num" layout vertical center>
+				<div class="num" layout horizontal center>
+					<div class="num" style="width: 3em; height: 3em;">3</div>
+					<div class="num" layout vertical center>
+						<div class="num" style="width: 2em; height: 2em;">2</div>
+						<div class="num" layout horizontal center>
+							<div class="num" layout vertical center>
+								<div class="num" style="width: 0em; height: 0em;">0</div>
+								<div class="num" style="width: 1em; height: 1em;">1</div>
+							</div>
+							<div class="num" style="width: 1em; height: 1em;">1</div>
+						</div>
+					</div>
+				</div>
+				<div class="num" style="width: 5em; height: 5em;">5</div>
+			</div>
+			<div class="num" style="width: 8em; height: 8em;">8</div>
+		</div>
+
+	</div>
+	<div flex center class="area"></div>
+
+<script>
+	// fibonacci is a function that returns
+	// a function that returns an int.
+	// Fib sequence is 0,1,1,2,3,5,8,13...
+	function fibonacci(){
+		var
+			a = 0,
+			b = 1;
+
+		return function() {
+			var
+				fib = a,
+				next = a + b;
+
+			a = b;
+			b = next;
+			return fib;
+		}
+	}
+	(function(){
+		var
+			i = 0,
+			button = document.querySelector('#button'),
+			demoArea = document.querySelector('.area'),
+			nextFib = fibonacci();
+
+		button.addEventListener('click', function(){
+			var fibNumber = nextFib();
+			console.log(i, fibNumber);
+			appendItem(fibNumber, i);
+			i++;
+		});
+
+		function appendItem(size, counter) {
+			var
+
+				layoutNode,
+				layoutType,
+				firstChild,
+				style,
+				units= 'px;',
+				node = document.createElement('DIV'),
+				colors = ['gainsboro', 'darksalmon', 'gray', 'yellowgreen'];
+
+			node.setAttribute('class', 'num');
+
+			// calculate inline-style
+			style = [
+				'width:', size, units,
+				'height:', size, units,
+				'border:', '0px solid #000;',
+				'border', (((i+1) % 4) < 2 ? '-top': '-bottom'),
+							((i % 4) < 2 ? '-left': '-right'), '-radius:', size, units,
+
+				'border', (((i+1) % 4) < 2 ? '-top': '-bottom'), '-width:', '1', units,
+				'border',  ((i % 4) < 2 ? '-left': '-right'), '-width:', '1', units,
+				'line-height:', size, units,
+				'text-align:', 'center;',
+				'background-color:', colors[i%4]
+			].join('');
+			node.setAttribute('style', style);
+			node.innerHTML = size;
+			if (counter == 0) {
+				demoArea.appendChild(node);
+			}
+			else {
+				layoutType = counter % 2 == 0 ? 'horizontal': 'vertical';
+				layoutNode = document.createElement('DIV');
+				layoutNode.setAttribute(layoutType, '');
+				layoutNode.setAttribute('center', '');
+				layoutNode.setAttribute('layout', '');
+				layoutNode.setAttribute('class', 'num layout-box');
+				firstChild = demoArea.removeChild(demoArea.firstChild);
+
+				if ((counter+1) % 4 < 2) {
+					layoutNode.appendChild(node);
+					layoutNode.appendChild(firstChild);
+				}
+				else {
+					layoutNode.appendChild(firstChild);
+					layoutNode.appendChild(node);
+				}
+
+				demoArea.appendChild(layoutNode);
+			}
+		}
+
+	})();
+</script>
+
+
+</body>
+</html>

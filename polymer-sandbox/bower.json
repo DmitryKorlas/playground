@@ -1,22 +1,23 @@
 {
-    "name": "polymer-sandbox",
-    "version": "1.0.0",
-    "description": "Few examples using Polymer",
-    "authors": [
-        "dmitry.korlas@gmail.com"
-    ],
-    "license": "MIT",
-    "keywords": [
-        "polymer",
-        "web-components",
-        "examples"
-    ],
-    "ignore": [
-        "**/.*",
-        "node_modules",
-        "bower_components"
-    ],
-    "dependencies": {
-        "polymer": "Polymer/polymer#^0.5.5"
-    }
+  "name": "polymer-sandbox",
+  "version": "1.0.0",
+  "description": "Few examples using Polymer",
+  "authors": [
+    "dmitry.korlas@gmail.com"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "polymer",
+    "web-components",
+    "examples"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^0.5.5",
+    "core-media-query": "polymer/core-media-query#~0.5.5"
+  }
 }

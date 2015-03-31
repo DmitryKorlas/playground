@@ -1,0 +1,63 @@
+<!-- Import Polymer -->
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/core-media-query/core-media-query.html">
+
+<!-- Define your custom element -->
+<polymer-element name="responsive-element" attributes="queryS queryM queryL">
+
+	<template>
+
+		<p>Hello <strong>I'm responsive</strong> :)</p>
+		<style>
+			.small {
+				background-color: rgba(80, 00, 80, .2);
+				padding: 10px;
+			}
+			.medium {
+				background-color: rgba(80, 00, 80, .4);
+				padding: 50px;
+			}
+			.large {
+				background-color: rgba(80, 00, 80, .6);
+				padding: 100px;
+			}
+		</style>
+
+		<template if="{{isSmallScreen}}">
+
+			<div class="small">
+			Small screen
+			</div>
+		</template>
+		<template if="{{isMediumScreen}}">
+			<div class="medium">
+			Medium screen
+			</div>
+		</template>
+		<template if="{{isLargeScreen}}">
+			<div class="large">
+			Large screen
+			</div>
+		</template>
+		<core-media-query
+			query="{{queryS}}"
+			queryMatches="{{isSmallScreen}}">
+		</core-media-query>
+		<core-media-query
+			query="{{queryM}}"
+			queryMatches="{{isMediumScreen}}">
+		</core-media-query>
+		<core-media-query
+			query="{{queryL}}"
+			queryMatches="{{isLargeScreen}}">
+		</core-media-query>
+
+	</template>
+
+	<script>
+		Polymer('responsive-element', {
+
+		});
+	</script>
+
+</polymer-element>

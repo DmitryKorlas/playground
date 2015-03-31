@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<!--<meta name="viewport" content="width=device-width; initial-scale=1.0">-->
+	<title>&lt;responsive-element&gt;</title>
+
+	<!-- Importing Web Component's Polyfill -->
+	<script src="bower_components/webcomponentsjs/webcomponents.min.js"></script>
+
+	<!-- Importing Custom Elements -->
+	<link rel="import" href="src/responsive-element.html">
+</head>
+<body>
+
+	<!-- Using Custom Elements -->
+	<responsive-element
+		queryS="max-width: 480px"
+		queryM="(min-width: 480px) and (max-width: 720px)"
+		queryL="min-width: 720px"
+		></responsive-element>
+
+</body>
+</html>

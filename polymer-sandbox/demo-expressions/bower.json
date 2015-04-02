@@ -1,0 +1,23 @@
+{
+  "name": "polymer-sandbox/demo-expressions",
+  "version": "1.0.0",
+  "description": "Demo of Polymer expressions for templates",
+  "authors": [
+    "dmitry.korlas@gmail.com"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "polymer",
+    "web-components",
+    "examples"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^0.5.5",
+    "paper-input": "polymer/paper-input#~0.5.5"
+  }
+}

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Expressions</title>
+
+	<!-- Importing Web Component's Polyfill -->
+	<script src="bower_components/webcomponentsjs/webcomponents.min.js"></script>
+
+	<!-- Importing Custom Elements -->
+	<link rel="import" href="bower_components/polymer/polymer.html">
+	<link rel="import" href="bower_components/paper-input/paper-input.html">
+	<style>
+		body, html {
+			background-color: rgba(230, 230, 230, 1);
+		}
+		.card {
+			position: relative;
+			display: inline-block;
+			width: 200px;
+			padding: 0 15px 25px;
+			margin: 15px;
+
+			background-color: rgba(255, 255, 255, .9);
+			box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .15);
+
+		}
+		.card.stretch {
+			width: auto;
+		}
+		.mark {
+			position: absolute;
+			top: 0;
+			right: 0;
+		}
+		.is-fast .mark::before {
+			color: #fff;
+			background: limegreen;
+			padding: 0 4px;
+			content: "Fast bird";
+		}
+		.more-100 .mark::after {
+			color: #fff;
+			background: red;
+			padding: 0 4px;
+			content: "Rocket";
+		}
+		.is-cant-fly {
+			background-color: lightyellow;
+		}
+	</style>
+</head>
+<body>
+
+	<section class="card stretch">
+		<h2>Expressions in template</h2>
+		<p>This demo demonstrates how to use expressions features in templates. It's available inside
+			<br/>polymer element, however if you prefer use them outside of element, you have to use
+			<br/>attribute <strong>is="auto-binding"</strong> on template tag</p>
+		@see <a href="https://www.polymer-project.org/0.5/docs/polymer/expressions.html">Expressions</a>
+	</section>
+	<section>
+		<template id="auto-template" is="auto-binding" repeat="{{records}}">
+			<div class="card {{ avgSpeed > 100 ? 'more-100' : '' }}
+			{{ canFly ? '': 'is-cant-fly' }}
+			{{ isFast(avgSpeed) ? 'is-fast' : '' }}">
+				<h3>{{name}}</h3>
+				<div>average speed:
+					<paper-input-decorator>
+						<input is="core-input" value="{{ avgSpeed | formatNumber }}" type="number"/>
+					</paper-input-decorator>
+				</div>
+				<div>maximum speed: {{maxSpeed}} km/h</div>
+				<div class="mark"></div>
+			</div>
+		</template>
+	</section>
+
+	<section>
+		<!-- This template does not support special expressions -->
+		<template id="manual-template">
+			<div class="card">
+				<h3>{{name}}</h3>
+				<div>average speed: {{avgSpeed}} km/h</div>
+				<div>maximum speed: {{maxSpeed}} km/h</div>
+			</div>
+		</template>
+	</section>
+
+	<script>
+		// add our own converters into expressions to be available in templates
+		PolymerExpressions.prototype.formatNumber = {
+			toDOM: function(val) {
+				return val;
+			},
+			toModel: function(val) {
+				return isNaN(val) ? -1 : Number(val);
+			}
+		};
+
+		PolymerExpressions.prototype.isFast = function(val) {
+			return this.avgSpeed > 60;
+		};
+
+		var records = [
+			{
+				name: 'Peregrine falcon',
+				avgSpeed: 180,
+				maxSpeed: 389,
+				canFly: true
+			},
+			{
+				name: 'Falco rusticolus',
+				avgSpeed: 198,
+				maxSpeed: 209,
+				canFly: true
+			},
+			{
+				name: 'Chicken',
+				avgSpeed: 0.5,
+				maxSpeed: 15,
+				canFly: false
+			},
+			{
+				name: 'Canvasback duck',
+				avgSpeed: 70,
+				maxSpeed: 115,
+				canFly: true
+			}
+		];
+
+		var autoTpl = document.querySelector('#auto-template');
+		autoTpl.records = records;
+
+		var manualTpl = document.querySelector('#manual-template');
+		manualTpl.model = records;
+		manualTpl.setAttribute('repeat', '');
+
+	</script>
+
+</body>
+</html>

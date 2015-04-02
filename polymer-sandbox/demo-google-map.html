@@ -29,6 +29,13 @@
 			vertical-align: bottom;
 			padding: 0.75em 0;
 		}
+		.field {
+			display: inline-block;
+		}
+		.field input[is=core-input] {
+			width: 10em;
+		}
+
 	</style>
 </head>
 <body>
@@ -36,8 +43,21 @@
 	<!-- Using Custom Elements -->
 	<p>Hey <strong>google-map</strong> :)</p>
 	<template>
-		<paper-input value="{{mapModel.latitude}}" label="latitude" floatingLabel="true" type="number"></paper-input>
-		<paper-input value="{{mapModel.longitude}}" label="longitude" floatingLabel="true"></paper-input>
+		<div class="field">
+			<paper-input-decorator>
+				<label>latitude:<br/>
+					<input is="core-input" value="{{mapModel.latitude}}" type="number"/>
+				</label>
+			</paper-input-decorator>
+		</div>
+		<div class="field">
+			<paper-input-decorator>
+				<label>longitude:<br/>
+					<input is="core-input" value="{{mapModel.longitude}}" type="number"/>
+				</label>
+			</paper-input-decorator>
+		</div>
+
 		<template bind="{{indicators}}">
 			<section>
 			<template repeat>
@@ -48,7 +68,7 @@
 			</section>
 		</template>
 	</template>
-	<google-map-custom who="Unicorn" clickEvents="true"></google-map-custom>
+	<google-map-custom clickEvents="true"></google-map-custom>
 <script>
 	var intConverter = {
 		toDOM: function(value) {

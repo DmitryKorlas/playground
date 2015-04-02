@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>&lt;google-map-custom&gt;</title>
+
+	<!-- Importing Web Component's Polyfill -->
+	<script src="bower_components/webcomponentsjs/webcomponents.min.js"></script>
+
+	<!-- Importing Custom Elements -->
+	<link rel="import" href="src/google-map-custom.html">
+	<link rel="import" href="bower_components/paper-input/paper-input.html">
+	<style>
+		google-map-custom {
+			height: 600px;
+		}
+		.indicator {
+			padding: 3px;
+			display: inline-block;
+			background-color: lightgreen;
+			transition: background-color 1004ms ease-in-out;
+		}
+		.animate-true {
+			background-color: #0078ff;
+			transition: none;
+		}
+		section {
+			display: inline-block;
+			vertical-align: bottom;
+			padding: 0.75em 0;
+		}
+	</style>
+</head>
+<body>
+
+	<!-- Using Custom Elements -->
+	<p>Hey <strong>google-map</strong> :)</p>
+	<template>
+		<paper-input value="{{mapModel.latitude}}" label="latitude" floatingLabel="true" type="number"></paper-input>
+		<paper-input value="{{mapModel.longitude}}" label="longitude" floatingLabel="true"></paper-input>
+		<template bind="{{indicators}}">
+			<section>
+			<template repeat>
+				<div class="indicator animate-{{animate}}">
+					{{name}}
+				</div>
+			</template>
+			</section>
+		</template>
+	</template>
+	<google-map-custom who="Unicorn" clickEvents="true"></google-map-custom>
+<script>
+	var intConverter = {
+		toDOM: function(value) {
+			console.log('toDOM');
+			return value;
+		},
+		toModel: function(value) {
+			console.log('toModel');
+			return value;
+		}
+	};
+	var customMap = document.querySelector('google-map-custom');
+	var tpl = document.querySelector('template');
+	tpl.setAttribute('bind', '');
+	var trackEvents = [
+		'google-map-drag',
+		'google-map-dragend',
+		'google-map-dragstart',
+		'google-map-click',
+		'google-map-dblclick'
+	].sort();
+
+	(function(){
+		var dataObject = {};
+
+		customMap.addEventListener('google-map-ready', function(e){
+			console.log('google-map-ready!');
+			dataObject.mapModel = customMap;
+			dataObject.indicators = trackEvents.sort()
+				.map(function(item){ return { name: item, counter: 0, animate: false, timeout: 0}});
+			tpl.model = dataObject;
+
+		});
+
+		trackEvents.forEach(function(eventName){
+			customMap.addEventListener(eventName, _onMapEvent)
+		});
+
+		function _onMapEvent(e){
+			highlightIndicator(e.type);
+		}
+		function highlightIndicator(name) {
+			var index =trackEvents.indexOf(name);
+			var indicator = index >=0 ? dataObject.indicators[index]: null;
+			var DURATION = 800;
+			if (indicator) {
+				indicator.counter++;
+				indicator.animate = true;
+				clearTimeout(indicator.timeout);
+				indicator.timeout = setTimeout(function(){
+					indicator.animate = false;
+				}, DURATION);
+			}
+		}
+
+	})();
+</script>
+</body>
+</html>

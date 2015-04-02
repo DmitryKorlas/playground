@@ -1,0 +1,33 @@
+<!-- Import Polymer -->
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/google-map/google-map.html">
+
+<!-- Define your custom element -->
+<polymer-element name="google-map-custom" attributes="who latitude longitude" extends="google-map">
+
+	<!--<template>
+		<style>
+			google-map {
+				height: 600px;
+			}
+		</style>
+		<p>Hello <strong>{{welcome}}</strong> :)</p>
+		<google-map latitude="{{latitude}}" longitude="{{longitude}}" ></google-map>
+	</template>-->
+
+	<script>
+		Polymer('google-map-custom', {
+			welcome: 'google-map',
+			latitude: 40.634212,
+			longitude: 22.934131,
+			dragEvents: true,
+			getMapOptions: function() {
+				var mapOptions = this.super();
+				mapOptions["streetViewControl"] = false;
+				return mapOptions;
+			}
+
+		});
+	</script>
+
+</polymer-element>

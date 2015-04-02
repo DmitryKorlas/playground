@@ -18,6 +18,8 @@
   ],
   "dependencies": {
     "polymer": "Polymer/polymer#^0.5.5",
-    "core-media-query": "polymer/core-media-query#~0.5.5"
+    "core-media-query": "polymer/core-media-query#~0.5.5",
+    "google-map": "GoogleWebComponents/google-map#~0.4.2",
+    "paper-input": "polymer/paper-input#~0.5.5"
   }
 }

@@ -16,7 +16,8 @@
 		}
 		.indicator {
 			padding: 3px;
-			display: inline-block;
+			float: left;
+			margin: 1px;
 			background-color: lightgreen;
 			transition: background-color 1004ms ease-in-out;
 		}
@@ -42,15 +43,16 @@
 
 	<!-- Using Custom Elements -->
 	<p>Hey <strong>google-map</strong> :)</p>
-	<template>
-		<div class="field">
+	<template id="controls">
+		<div layout horizontal >
+		<div class="field" self-end>
 			<paper-input-decorator>
 				<label>latitude:<br/>
 					<input is="core-input" value="{{mapModel.latitude}}" type="number"/>
 				</label>
 			</paper-input-decorator>
 		</div>
-		<div class="field">
+		<div class="field" self-end>
 			<paper-input-decorator>
 				<label>longitude:<br/>
 					<input is="core-input" value="{{mapModel.longitude}}" type="number"/>
@@ -59,7 +61,7 @@
 		</div>
 
 		<template bind="{{indicators}}">
-			<section>
+			<section flex self-end>
 			<template repeat>
 				<div class="indicator animate-{{animate}}">
 					{{name}}
@@ -67,28 +69,38 @@
 			</template>
 			</section>
 		</template>
+		</div>
 	</template>
-	<google-map-custom clickEvents="true"></google-map-custom>
+	<google-map-custom clickEvents="true">
+		<google-map-marker clickEvents="true" mouseEvents="true" draggable="true"
+						   latitude="40.534212" longitude="22.334131">
+			<img width="300" height="200" src="http://lorempixel.com/300/100">
+		</google-map-marker>
+		<google-map-marker clickEvents="true" mouseEvents="true" draggable="true"
+						   latitude="40.734212" longitude="23.034131">
+		</google-map-marker>
+	</google-map-custom>
 <script>
-	var intConverter = {
-		toDOM: function(value) {
-			console.log('toDOM');
-			return value;
-		},
-		toModel: function(value) {
-			console.log('toModel');
-			return value;
-		}
-	};
 	var customMap = document.querySelector('google-map-custom');
-	var tpl = document.querySelector('template');
+	var markersNodeList = document.querySelectorAll('google-map-marker');
+	var markers = Array.prototype.splice.call(markersNodeList, 0);
+	var tpl = document.querySelector('template#controls');
 	tpl.setAttribute('bind', '');
+
 	var trackEvents = [
 		'google-map-drag',
 		'google-map-dragend',
 		'google-map-dragstart',
 		'google-map-click',
-		'google-map-dblclick'
+		'google-map-dblclick',
+		'google-map-marker-click',
+		'google-map-marker-dblclick',
+		'google-map-marker-mousedown',
+		'google-map-marker-mousemove',
+		'google-map-marker-mouseout',
+		'google-map-marker-mouseover',
+		'google-map-marker-mouseup'
+
 	].sort();
 
 	(function(){
@@ -103,8 +115,13 @@
 
 		});
 
-		trackEvents.forEach(function(eventName){
-			customMap.addEventListener(eventName, _onMapEvent)
+		trackEvents.forEach(function(eventName) {
+			var isMarkerEvent = eventName.indexOf('google-map-marker') == 0;
+			var nodes = isMarkerEvent? markers: [customMap];
+
+			nodes.forEach(function(node) {
+				node.addEventListener(eventName, _onMapEvent)
+			});
 		});
 
 		function _onMapEvent(e){

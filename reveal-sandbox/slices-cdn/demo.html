@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Presentation</title>
+	<meta charset="utf-8">
+
+	<title>reveal.js - The HTML Presentation Framework</title>
+
+	<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+	<meta name="author" content="Hakim El Hattab">
+
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/reveal.js/3.0.0/css/reveal.css">
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/reveal.js/3.0.0/css/theme/white.css" id="theme">
+
+	<!-- Code syntax highlighting -->
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/reveal.js/3.0.0/lib/css/zenburn.css">
+	<style>
+
+		.backgrounds {
+			/* fix parallax bottom side */
+			background-position-y: 80%!important;
+
+			/* set static background */
+			/*background: url(//download.unsplash.com/32/C3eOS3DFQgGkcuEXMulZ_IMG_2033.jpg);*/
+		}
+		/** {
+			box-sizing: border-box;
+		}*/
+	</style>
+</head>
+<body>
+<div class="reveal">
+	<div class="slides">
+		<section data-markdown="intro.md"
+				 data-separator="^\n\n\n"
+				 data-separator-vertical="^\n\n"
+				 data-separator-notes="^Note:"
+				 data-charset="iso-8859-15">
+		</section>
+		<section data-markdown="content-text.md"
+				 data-separator="^\n\n\n"
+				 data-separator-vertical="^\n\n"
+				 data-separator-notes="^Note:"
+				 >
+		</section>
+		<section data-markdown="content-lists.md"></section>
+		<section data-markdown="content-images.md"></section>
+		<section>
+			<!--<h1>This is not markdown</h1>
+			If you want to embed images, this is how you do it:-->
+			<img src="//octodex.github.com/images/original.png" width="896" height="896">
+		</section>
+		<section data-markdown="content-headers.md"></section>
+		<section data-markdown="content-code.md" marked></section>
+		<section data-markdown="content-extras.md"></section>
+		<section data-markdown="content-fragments.md"></section>
+	</div>
+</div>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/reveal.js/3.0.0/lib/js/head.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/reveal.js/3.0.0/js/reveal.js"></script>
+<script>
+	var libBaseUrl = "//cdnjs.cloudflare.com/ajax/libs/reveal.js/3.0.0";
+	Reveal.initialize({
+
+		// The "normal" size of the presentation, aspect ratio will be preserved
+		// when the presentation is scaled to fit different resolutions. Can be
+		// specified using percentage units.
+		width: 1200,
+		height: 1200,
+		margin: 0,
+
+		// Display controls in the bottom right corner
+		controls: true,
+
+		// Display a presentation progress bar
+		progress: true,
+
+		// Display the page number of the current slide
+		slideNumber: false,
+
+		// Push each slide change to the browser history
+		history: true,
+
+		// Enable keyboard shortcuts for navigation
+		keyboard: true,
+
+		// Enable the slide overview mode
+		overview: true,
+
+		// Vertical centering of slides
+		center: true,
+
+		// Enables touch navigation on devices with touch input
+		touch: true,
+
+		// Loop the presentation
+		loop: false,
+
+		// Change the presentation direction to be RTL
+		rtl: false,
+
+		// Turns fragments on and off globally
+		fragments: true,
+
+		// Flags if the presentation is running in an embedded mode,
+		// i.e. contained within a limited portion of the screen
+		embedded: false,
+
+		// Flags if we should show a help overlay when the questionmark
+		// key is pressed
+		help: true,
+
+		// Number of milliseconds between automatically proceeding to the
+		// next slide, disabled when set to 0, this value can be overwritten
+		// by using a data-autoslide attribute on your slides
+		autoSlide: 0,
+
+		// Stop auto-sliding after user input
+		autoSlideStoppable: true,
+
+		// Enable slide navigation via mouse wheel
+		mouseWheel: false,
+
+		// Hides the address bar on mobile devices
+		hideAddressBar: true,
+
+		// Opens links in an iframe preview overlay
+		previewLinks: false,
+
+		// Transition style
+		transition: 'default', // none/fade/slide/convex/concave/zoom
+
+		// Transition speed
+		transitionSpeed: 'default', // default/fast/slow
+
+		// Transition style for full page slide backgrounds
+		backgroundTransition: 'default', // none/fade/slide/convex/concave/zoom
+
+		// Number of slides away from the current that are visible
+		viewDistance: 3,
+
+		// Parallax background image
+		// parallaxBackgroundImage: '', // e.g. "'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg'"
+		parallaxBackgroundImage: '//download.unsplash.com/32/C3eOS3DFQgGkcuEXMulZ_IMG_2033.jpg',
+
+		// Parallax background size
+		parallaxBackgroundSize: '4272px 2848px', // CSS syntax, e.g. "2100px 900px"
+		// Optional reveal.js plugins
+
+		dependencies: [
+			{
+				src: libBaseUrl + '/lib/js/classList.js',
+				condition: function() {
+					return !document.body.classList;
+				}
+			},
+			{
+				src: libBaseUrl + '/plugin/markdown/marked.js',
+				condition: function() {
+					return !!document.querySelector( '[data-markdown]' );
+				}
+			},
+			{
+				src: libBaseUrl + '/plugin/markdown/markdown.js',
+				condition: function() {
+					return !!document.querySelector( '[data-markdown]' );
+				}
+			},
+			{
+				src: libBaseUrl + '/plugin/highlight/highlight.js',
+				async: true,
+				condition: function() {
+					//return !!document.querySelector( 'pre code' );
+					return true;
+				},
+				callback: function() {
+					hljs.initHighlightingOnLoad();
+				}
+			},
+			{ src: libBaseUrl + '/plugin/zoom-js/zoom.js', async: true },
+			{ src: libBaseUrl + '/plugin/notes/notes.js', async: true }
+		]
+
+	});
+</script>
+</body>
+</html>

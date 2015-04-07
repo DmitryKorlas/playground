@@ -32,6 +32,10 @@
 		/** {
 			box-sizing: border-box;
 		}*/
+		div.interactive {
+			height: 200px;
+			border: 2px solid dodgerblue;
+		}
 	</style>
 </head>
 <body>
@@ -57,9 +61,25 @@
 			<img src="//octodex.github.com/images/original.png" width="896" height="896">
 		</section>
 		<section data-markdown="content-headers.md"></section>
-		<section data-markdown="content-code.md" marked></section>
+		<section data-markdown="content-code.md"></section>
 		<section data-markdown="content-extras.md"></section>
 		<section data-markdown="content-fragments.md"></section>
+		<section>
+			<h1>Interactive</h1>
+			<p>You can add interactive fragments or elements into your slides</p>
+
+			<div class="interactive fragment">mouse move on me</div>
+
+			<script>
+			document.addEventListener('DOMContentLoaded', function(){
+				var node = document.querySelector('.interactive');
+				node.addEventListener('mousemove', function(e) {
+					node.innerHTML = 'x:' + e.offsetX + ', y:' + e.offsetY;
+				});
+
+			});
+			</script>
+		</section>
 	</div>
 </div>
 

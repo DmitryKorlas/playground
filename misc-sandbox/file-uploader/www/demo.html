@@ -13,23 +13,38 @@
 		$(function () {
 			var url = 'upload';
 			$('#fileupload').fileupload({
+
+				// this option is automatically used in older browsers
+				//forceIframeTransport: true,
+
 				url: url,
 				//autoUpload: true,
 				//dataType: 'json',
+
 				done: function (e, data) {
-					//debugger;
+
+					// chrome 42
 					alert('done:' + data.result);
-					$.each(data.result.files, function (index, file) {
+
+					// ie8, fetch from iframe
+					var result = $( data.result ).text();
+
+					// this also can be helpful
+					//var result = $('pre', data.result ).text();
+
+
+					alert('result:'+ result);
+					/*$.each(data.result.files, function (index, file) {
 						$('<p/>').text(file.name).appendTo('#files');
-					});
+					});*/
 				},
 				progressall: function (e, data) {
-					//debugger;
-					var progress = parseInt(data.loaded / data.total * 100, 10);
+
+					/*var progress = parseInt(data.loaded / data.total * 100, 10);
 					$('#progress .progress-bar').css(
 							'width',
 							progress + '%'
-					);
+					);*/
 				}
 			});
 		});
@@ -37,7 +52,12 @@
 
 </head>
 <body>
-<p>@see <a href="https://github.com/blueimp/jQuery-File-Upload/wiki/Basic-plugin#how-to-use-only-the-basic-plugin-minimal-setup-guide">minimal-setup-guide</a></p>
+<h2>AJAX file upload</h2>
+<p>
+	To run demo backend, type <i><b>$</b> node index.js</i> in command line. Then visit http://localhost:3000
+	<br/>@see <a href="https://github.com/blueimp/jQuery-File-Upload/wiki/Basic-plugin#how-to-use-only-the-basic-plugin-minimal-setup-guide">minimal-setup-guide</a></p>
+
+
 <!-- The fileinput-button span is used to style the file input field as button -->
     <span class="btn btn-success fileinput-button">
         <i class="glyphicon glyphicon-plus"></i>

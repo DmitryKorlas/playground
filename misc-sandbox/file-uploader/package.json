@@ -4,6 +4,7 @@
   "main": "index.js",
   "dependencies": {
     "express": "^4.12.3",
+    "multer": "^0.1.8",
     "serve-static": "^1.9.2"
   }
 }

@@ -1,0 +1,9 @@
+{
+  "name": "blueimp-file-upload-demos",
+  "version": "9.9.3",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.12.3",
+    "serve-static": "^1.9.2"
+  }
+}

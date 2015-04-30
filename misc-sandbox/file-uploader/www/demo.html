@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Uploader demo</title>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.1/jquery-ui.js"></script>
+	<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
+	<script src="//cdnjs.cloudflare.com/ajax/libs/blueimp-file-upload/9.5.7/jquery.iframe-transport.js"></script>
+	<!-- The basic File Upload plugin -->
+	<script src="//cdnjs.cloudflare.com/ajax/libs/blueimp-file-upload/9.5.7/jquery.fileupload.js"></script>
+	<script>
+		$(function () {
+			var url = 'upload';
+			$('#fileupload').fileupload({
+				url: url,
+				//autoUpload: true,
+				//dataType: 'json',
+				done: function (e, data) {
+					//debugger;
+					alert('done:' + data.result);
+					$.each(data.result.files, function (index, file) {
+						$('<p/>').text(file.name).appendTo('#files');
+					});
+				},
+				progressall: function (e, data) {
+					//debugger;
+					var progress = parseInt(data.loaded / data.total * 100, 10);
+					$('#progress .progress-bar').css(
+							'width',
+							progress + '%'
+					);
+				}
+			});
+		});
+	</script>
+
+</head>
+<body>
+<p>@see <a href="https://github.com/blueimp/jQuery-File-Upload/wiki/Basic-plugin#how-to-use-only-the-basic-plugin-minimal-setup-guide">minimal-setup-guide</a></p>
+<!-- The fileinput-button span is used to style the file input field as button -->
+    <span class="btn btn-success fileinput-button">
+        <i class="glyphicon glyphicon-plus"></i>
+        <span>Select files...</span>
+        <!-- The file input field used as target for the file upload widget -->
+        <input id="fileupload" type="file" name="files[]" multiple>
+    </span>
+
+</body>
+</html>

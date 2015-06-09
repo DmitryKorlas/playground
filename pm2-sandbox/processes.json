@@ -1,0 +1,19 @@
+{
+  "apps" : [{
+	"name"        : "worker-app",
+	"script"      : "app.js",
+	"args"        : ["--something=aa bb cc", "-f", "10"],
+	"instances"  : 4,
+	"max_memory_restart" : "200M",
+	"exec_mode"  : "cluster",
+	"exec_interpreter": "node",
+	"watch"       : true,
+	"node_args"   : "",
+	"merge_logs"  : true,
+	"cwd"         : "./",
+	"env": {
+	  "NODE_ENV": "production",
+	  "AWESOME_SERVICE_API_TOKEN": "xxx"
+	}
+  }]
+}

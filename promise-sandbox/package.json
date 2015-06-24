@@ -1,0 +1,25 @@
+{
+  "name": "promise-sandbox",
+  "version": "1.0.0",
+  "description": "Few examples around promises",
+  "main": "main.js",
+  "scripts": {
+    "test": "npm install && ./node_modules/mocha/bin/mocha"
+  },
+  "keywords": [
+    "promises",
+    "nodejs",
+    "javascript"
+  ],
+  "author": "Dmitry Korlas",
+  "license": "ISC",
+  "dependencies": {
+    "bluebird": "^2.9.30"
+  },
+  "devDependencies": {
+    "chai": "^3.0.0",
+    "leche": "^2.1.1",
+    "mocha": "^2.2.5",
+    "sinon": "^1.15.3"
+  }
+}

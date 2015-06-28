@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Hello React</title>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/react/0.13.3/react.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js"></script>
+	<style>
+		.pane {
+			margin: 30px 20px;
+			padding: 20px;
+			display: inline-block;
+			border: 2px solid rgba(216, 116, 223, 1);
+			/*#8a2be2*/
+			border-radius: 5px;
+		}
+	</style>
+</head>
+<body>
+<div class="pane" id="content1"></div>
+<div class="pane" id="content2"></div>
+<script type="text/jsx" src="components-c.jsx"></script>
+<script type="text/jsx">
+	var PRODUCTS = [
+		{category: 'Sporting Goods', price: '$49.99', stocked: true, name: 'Football'},
+		{category: 'Sporting Goods', price: '$9.99', stocked: true, name: 'Baseball'},
+		{category: 'Sporting Goods', price: '$29.99', stocked: false, name: 'Basketball'},
+		{category: 'Electronics', price: '$99.99', stocked: true, name: 'iPod Touch'},
+		{category: 'Electronics', price: '$399.99', stocked: false, name: 'iPhone 5'},
+		{category: 'Electronics', price: '$199.99', stocked: true, name: 'Nexus 7'}
+	];
+
+	React.render(<FilterableProductTable products={PRODUCTS} filterText="Bas"/>, document.querySelector('#content1'));
+	React.render(<FilterableProductTable products={PRODUCTS} />, document.querySelector('#content2'));
+</script>
+</body>
+</html>

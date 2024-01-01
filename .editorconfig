@@ -6,7 +6,8 @@ root = true
 
 [*]
 # indentation
-indent_style = tab
+indent_style = space
+indent_size = 2
 
 # generic
 charset = utf-8
@@ -16,8 +17,3 @@ insert_final_newline = true
 
 [*.md]
 trim_trailing_whitespace = false
-
-# npm, bower packages
-[{package.json, bower.json}]
-indent_style = space
-indent_size = 2

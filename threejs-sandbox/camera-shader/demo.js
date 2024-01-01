@@ -178,9 +178,7 @@ exports.streamController = (function(){
 		 * @param {HTMLVideoElement} element DOM <video/> element
 		 */
 		function bindMediaStream(localMediaStream, element) {
-			var url = window.URL.createObjectURL(localMediaStream);
-			element.src = url;
-			//video.src = localMediaStream; // for older firefox/opera
+			element.srcObject = localMediaStream;
 			element.onloadedmetadata = function (e) {
 				console.log('onloadedmetadata called');
 				// Do something with the video here.

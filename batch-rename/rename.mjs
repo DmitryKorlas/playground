@@ -2,7 +2,11 @@
 
 
 /**
- * This script renames all files from "antennafly_aaa_bb_Cc_r__AAAA-AAA-AA.jpg" > "aaa bb Cc r.jpg"
+ * This script renames all files from "annadesignfly_aaa_bb_Cc_r__AAAA-AAA-AA.jpg" > "aaa bb Cc r.jpg"
+ * If target file exists, script will add suffix starting from '1', i.e.:
+ * "aaa bb Cc r.jpg"
+ * "aaa bb Cc r-1.jpg",
+ * "aaa bb Cc r-2.jpg" etc.
  *
  * Usage:
  * brew install zx
@@ -22,28 +26,44 @@ const addEndingSlash = (filePath) => filePath.endsWith('/') ? filePath : `${file
 const DIR = addEndingSlash(process.argv[3] || './');
 
 const renameFile = (file) => {
-  const match = file.match(/antennafly_(.+)_+([^_]+)/);
+  const match = file.match(/^annadesignfly_(.+)_+([^_]+)(\.[a-z0-9]{2,4})$/i);
 
   if (!match) {
     return false;
   }
 
   const fileName = match[1];
+  const fileExt = match[3];
 
   // replace '_' to spaces
-  const newName = fileName.replace(/_/g, " ").trim();
+  let newFileName = fileName.replace(/_/g, " ").trim();
 
-  const newFileName = `${newName}.jpg`;
-
-  if (fs.existsSync(`${DIR}${newFileName}`)) {
-    console.log(`❌ Skip rename. File already exists "${newFileName}"`);
-    return false;
-  }
+  // convert first char to upper case
+  newFileName = newFileName.charAt(0).toUpperCase() + newFileName.substring(1);
+  newFileName = findFileName(`${DIR}${newFileName}${fileExt}`);
 
   fs.renameSync(`${DIR}${file}`, `${DIR}${newFileName}`);
 
   console.log(`✅ File "${file}" renamed to "${newFileName}"`);
   return true;
+};
+
+const findFileName = (filepath) => {
+  const extname = path.extname(filepath);
+  const basename = path.basename(filepath, extname);
+  const dirname = path.dirname(filepath);
+
+  let index = 0;
+  while (true) {
+    const nextName = index === 0
+      ? `${basename}${extname}`
+      : `${basename}-${index}${extname}`;
+
+    if (!fs.existsSync(path.join(dirname, nextName))) {
+      return nextName;
+    }
+    index++;
+  }
 };
 
 

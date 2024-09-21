@@ -47,7 +47,7 @@ $ tree  ~/temp/test/source
     └── previewOverlay.png
 ```
 
-Script will produce the following output
+Script will create the following directory structure:
 
 ```sh
 $ tree  ~/Downloads/target/

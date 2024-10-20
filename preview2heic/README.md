@@ -1,6 +1,6 @@
 # Preview to heic
 
-This script converts `.png` images to `.heic` format within a directory, preserving the directory structure.
+This script converts `.png` images to `.heic` format within a directory and its subdirectories, preserving the directory structure.
 
 
 For each `.png` file:

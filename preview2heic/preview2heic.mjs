@@ -3,14 +3,14 @@
 
 /**
  * Preview to heic
- * This script converts `.png` images to `.heic` format within a directory, preserving the directory structure.
+ * This script converts `.png` images to `.heic` format within a directory and its subdirectories, preserving the directory structure.
  *
  * Usage:
  * ./preview2heic.mjs ~/my-dir/source ~/Downloads/target
  *
  */
 
-const checkIsDirectory = async(directory) => {
+const checkIsDirectory = async (directory) => {
   try {
     const stats = await fs.stat(directory);
     return stats.isDirectory();
@@ -20,7 +20,7 @@ const checkIsDirectory = async(directory) => {
   }
 }
 
-const ensureDirectories = async() => {
+const ensureDirectories = async () => {
   const [sourceDir, targetDir] = process.argv.slice(3);
 
   if (!sourceDir || !targetDir) {
@@ -51,42 +51,42 @@ const logConverting = (fromPath, toPath) => {
   console.log(`Processing ${fromPath} > ${toPath}`);
 }
 
-async function processDirectory(src, dest) {
-  const items = await fs.readdir(src, {withFileTypes: true});
-  const stat = {dirsCounter: 0, convertedCounter: 0};
+async function processDirectory(src, dest, initialStat) {
+  console.log('processDirectory', src, dest);
+  const stat = {...initialStat};
 
-  const directories = items.filter(item => item.isDirectory());
+  const files = await fs.readdir(src, {withFileTypes: true});
 
-  for (const dir of directories) {
-    const srcPath = path.join(src, dir.name);
-    const destPath = path.join(dest, dir.name);
-
-    await fs.mkdir(destPath, {recursive: true});
-
-    const files = await fs.readdir(srcPath, {withFileTypes: true});
-    let isDirProcessed = false;
-
-    for (const file of files) {
-      if (file.isFile()) {
-        const srcFilePath = path.join(srcPath, file.name);
-
-        if (file.name === 'preview.png') {
-          // copy as is
-          await $`cp ${srcFilePath} ${path.join(destPath, file.name)}`;
-        } else if (path.extname(file.name) === '.png') {
-          // convert other .png files with renaming to .heic
-          const newFileName = path.basename(file.name, '.png') + '.heic';
-          const newDestPath = path.join(destPath, newFileName);
-          logConverting(srcFilePath, newDestPath);
-          await convertImage(srcFilePath, newDestPath);
-          stat.convertedCounter++;
-          isDirProcessed = true;
-        }
-      }
+  let isPngProcessedInDir = false;
+  for (const file of files) {
+    const srcPath = path.join(src, file.name);
+    const destPath = path.join(dest, file.name);
+    if (file.isDirectory()) {
+      await fs.mkdir(destPath, {recursive: true});
+      const nestedStat = await processDirectory(srcPath, destPath, stat);
+      stat.convertedCounter = nestedStat.convertedCounter;
+      stat.dirsCounter = nestedStat.dirsCounter;
+      continue;
     }
 
-    if (isDirProcessed) {
-      stat.dirsCounter++;
+    if (!file.isFile()) {
+      continue;
+    }
+
+    if (file.name === 'preview.png') {
+      // copy as is
+      await $`cp ${srcPath} ${destPath}`;
+    } else if (path.extname(file.name) === '.png') {
+      // convert other .png files with renaming to .heic
+      const newFileName = path.basename(file.name, '.png') + '.heic';
+      const newDestPath = path.join(dest, newFileName);
+      logConverting(srcPath, newDestPath);
+      await convertImage(srcPath, newDestPath);
+      stat.convertedCounter++;
+      if (!isPngProcessedInDir) {
+        stat.dirsCounter++;
+      }
+      isPngProcessedInDir = src;
     }
   }
 
@@ -98,8 +98,7 @@ async function main() {
 
   console.log('sourceDir:', sourceDir)
   console.log('targetDir:', targetDir)
-
-  const stat = await spinner('🍺', () => processDirectory(sourceDir, targetDir));
+  const stat = await spinner('🍺', () => processDirectory(sourceDir, targetDir, {dirsCounter: 0, convertedCounter: 0}));
 
   console.log('-'.repeat(80))
   console.log('✅ Done:');
